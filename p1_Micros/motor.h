@@ -1,0 +1,26 @@
+#ifndef MOTOR_H_
+#define MOTOR_H_
+
+#include <msp430.h>
+
+//puertos 
+//P2.0
+//P2.1 
+//P2.2
+//P2.3
+
+#define M_DIR   P2DIR
+#define M_OUT   P2OUT
+#define M_MASK  (BIT0 | BIT1 | BIT2 | BIT3) 
+
+//funciones
+void motor_init(void);
+void motor_derecha(unsigned int pasos, unsigned int vel);
+void motor_izquierda(unsigned int pasos, unsigned int vel);
+
+// Ciclos de la lavadora
+void remojado(void);
+void lavado(void);
+void exprimido(void);
+
+#endif
