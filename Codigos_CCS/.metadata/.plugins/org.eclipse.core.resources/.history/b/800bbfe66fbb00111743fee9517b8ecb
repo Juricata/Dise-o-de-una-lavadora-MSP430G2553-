@@ -1,0 +1,20 @@
+/*
+*  q1
+ * LCD.h
+ *
+ *  Created on: 28/09/2026
+ *      Authors: Julia Elizabeth Cuesta Quezada
+ *               Dania Guadalupe Rosales Trujillo
+ */
+
+#ifndef LCD_H
+#define LCD_H
+
+void esperar(int milisegundos);
+void lcd_comando(int comando);
+void lcd_init(void);
+void lcd_letra(int letra);
+
+void lcd_nuevosim(int posicioncgram, int *fila);
+
+#endif
