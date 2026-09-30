@@ -9,7 +9,6 @@
 #ifndef LCD_H
 #define LCD_H
 
-void esperar(int milisegundos);
 void lcd_comando(int comando);
 void lcd_init(void);
 void lcd_letra(int letra);

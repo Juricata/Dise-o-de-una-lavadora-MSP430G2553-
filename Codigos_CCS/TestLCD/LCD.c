@@ -7,6 +7,7 @@
  */
 
 #include "lcd.h"
+#include "segundos.h"
 #include <msp430.h>
 
 // pines del lcd
@@ -17,13 +18,7 @@
 #define D6 BIT4
 #define D7 BIT5
 
-// esperar una cantida aproximada de milisegundos
-void esperar(int milisegundos){
-    volatile int j;
-    while(milisegundos--){
-        for(j = 0; j < 1000; j++);
-    }
-}
+espera_init(0); //microsegundos
 // activar el pulso de enable
 void enable(void){
     P1OUT |= E;
@@ -33,25 +28,26 @@ void enable(void){
 void lcd_comando(int comando){
     P1OUT = ((comando>>2) & 0x3C); // colocar primer dato entre los bits 2 - 6
     enable();
-    esperar(1);
+    espera(1);
 
     P1OUT = ((comando<<2) & 0x3C);
     enable();
-    esperar(5);
+    esperar(2);
 }
 // inicializacion de la lcd (prender pantalla, ajuste a modo de 4 bits)
 void lcd_init (void){
-
+    espera_init(2); // milisegundos
     P1DIR = 0x3F; // inicializa los primeros 6 bits para lcd
 
+    espera(15);
     lcd_comando(0x03);
     esperar(5);
     lcd_comando(0x03);
-    esperar(5);
+    esperar(1);
     lcd_comando(0x03);
-    esperar(5);
+    esperar(1);
     lcd_comando(0x02);
-    esperar(5);
+    esperar(1);
     lcd_comando(0x28);
     lcd_comando(0x0C);
     lcd_comando(0x06);
@@ -66,7 +62,7 @@ void lcd_letra(int letra){
 
     P1OUT = ((letra<<2) & 0x3C)|RS;
     enable();
-    esperar(5);
+    esperar(2);
     P1OUT &=~ RS;
 
 }
