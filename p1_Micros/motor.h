@@ -2,6 +2,7 @@
 #define MOTOR_H_
 
 #include <msp430.h>
+#include "segundos.h"
 
 //puertos 
 //P2.0
