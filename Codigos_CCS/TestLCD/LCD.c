@@ -18,7 +18,6 @@
 #define D6 BIT4
 #define D7 BIT5
 
-espera_init(0); //microsegundos
 // activar el pulso de enable
 void enable(void){
     P1OUT |= E;
@@ -32,7 +31,7 @@ void lcd_comando(int comando){
 
     P1OUT = ((comando<<2) & 0x3C);
     enable();
-    esperar(2);
+    espera(2);
 }
 // inicializacion de la lcd (prender pantalla, ajuste a modo de 4 bits)
 void lcd_init (void){
@@ -41,13 +40,15 @@ void lcd_init (void){
 
     espera(15);
     lcd_comando(0x03);
-    esperar(5);
+    espera(5);
     lcd_comando(0x03);
-    esperar(1);
+    espera(1);
     lcd_comando(0x03);
-    esperar(1);
+    espera(1);
     lcd_comando(0x02);
-    esperar(1);
+    espera(1);
+
+    espera_init(0); // microsegundos
     lcd_comando(0x28);
     lcd_comando(0x0C);
     lcd_comando(0x06);
@@ -58,11 +59,11 @@ void lcd_letra(int letra){
 
     P1OUT = ((letra>>2) & 0x3C)|RS; // colocar primer dato entre los bits 2 - 6
     enable();
-    esperar(1);
+    espera(1);
 
     P1OUT = ((letra<<2) & 0x3C)|RS;
     enable();
-    esperar(2);
+    espera(2);
     P1OUT &=~ RS;
 
 }
