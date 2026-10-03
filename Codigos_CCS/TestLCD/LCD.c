@@ -11,12 +11,12 @@
 #include <msp430.h>
 
 // pines del lcd
-#define RS BIT0
-#define E  BIT1
-#define D4 BIT2
-#define D5 BIT3
-#define D6 BIT4
-#define D7 BIT5
+#define RS BIT6
+#define E  BIT5
+#define D4 BIT0
+#define D5 BIT1
+#define D6 BIT2
+#define D7 BIT3
 
 // activar el pulso de enable
 void enable(void){
@@ -25,30 +25,36 @@ void enable(void){
 }
 // comandos en la lcd (rs = 0)
 void lcd_comando(int comando){
-    P1OUT = ((comando>>2) & 0x3C); // colocar primer dato entre los bits 2 - 6
+    P2OUT = ((comando) & (D4|D5|D6|D7)); // colocar los datos de los pines
     enable();
+    espera_init(0);
     espera(1);
 
-    P1OUT = ((comando<<2) & 0x3C);
+    P2OUT = ((comando) & (D4|D5|D6|D7));
     enable();
+    espera_init(0);
     espera(2);
 }
 // inicializacion de la lcd (prender pantalla, ajuste a modo de 4 bits)
 void lcd_init (void){
-    espera_init(2); // milisegundos
-    P1DIR = 0x3F; // inicializa los primeros 6 bits para lcd
-
+  // milisegundos
+    P1DIR |= RS|E; // inicializa los primeros 2 bits para lcd control
+    P2DIR |= D4|D5|D6|D7; // inicializa los pines de datos
+    espera_init(2);
     espera(15);
     lcd_comando(0x03);
+    espera_init(2);
     espera(5);
     lcd_comando(0x03);
+    espera_init(2);
     espera(1);
     lcd_comando(0x03);
+    espera_init(2);
     espera(1);
     lcd_comando(0x02);
+    espera_init(2);
     espera(1);
 
-    espera_init(0); // microsegundos
     lcd_comando(0x28);
     lcd_comando(0x0C);
     lcd_comando(0x06);
@@ -57,12 +63,16 @@ void lcd_init (void){
 // lcd impresiones de pantalla
 void lcd_letra(int letra){
 
-    P1OUT = ((letra>>2) & 0x3C)|RS; // colocar primer dato entre los bits 2 - 6
+    P2OUT = (letra) & (D4|D5|D6|D7);    // colocar dato
+    P1OUT |= RS;
     enable();
+    espera_init(0);
     espera(1);
 
-    P1OUT = ((letra<<2) & 0x3C)|RS;
+    P2OUT = (letra) & (D4|D5|D6|D7);
+    P1OUT |= RS;
     enable();
+    espera_init(0);
     espera(2);
     P1OUT &=~ RS;
 

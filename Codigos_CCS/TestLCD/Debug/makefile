@@ -13,9 +13,8 @@ ORDERED_OBJS += \
 "./LCD.obj" \
 "./main.obj" \
 "./segundos.obj" \
-"../lnk_cc430f5123.cmd" \
+"../lnk_msp430g2553.cmd" \
 $(GEN_CMDS__FLAG) \
--llibmath.a \
 -llibc.a \
 
 -include ../makefile.init
@@ -137,20 +136,20 @@ BIN_OUTPUTS__QUOTED += \
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "TestLCD.out"
+	@$(MAKE) --no-print-directory -Onone "TestLCD.out" secondary-outputs
 
 # Tool invocations
 TestLCD.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.4.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --define=__CC430F5123__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"TestLCD.map" --heap_size=80 --stack_size=80 -i"C:/ti/ccsv8/ccs_base/msp430/include" -i"C:/ti/ccsv8/ccs_base/msp430/lib/5xx_6xx_FRxx" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.4.LTS/lib" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="TestLCD_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "TestLCD.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.4.LTS/bin/cl430" -vmsp --use_hw_mpy=none --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number -z -m"TestLCD.map" --heap_size=80 --stack_size=80 -i"C:/ti/ccsv8/ccs_base/msp430/include" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.4.LTS/lib" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="TestLCD_linkInfo.xml" --use_hw_mpy=none --rom_model -o "TestLCD.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 TestLCD.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: MSP430 Hex Utility'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.4.LTS/bin/hex430" --memwidth=8 --romwidth=8 -o "TestLCD.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.4.LTS/bin/hex430" --memwidth=8 --romwidth=8 --intel -o "TestLCD.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
@@ -161,6 +160,8 @@ clean:
 	-$(RM) "LCD.d" "main.d" "segundos.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
+
+secondary-outputs: $(BIN_OUTPUTS)
 
 .PHONY: all clean dependents
 .SECONDARY:

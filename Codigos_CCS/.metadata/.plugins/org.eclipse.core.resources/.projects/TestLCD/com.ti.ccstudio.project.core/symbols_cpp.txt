@@ -1,6 +1,6 @@
 #define __unsigned_chars__ 1	/* Predefined */
-#define __DATE__ "Sep 28 2026"	/* Predefined */
-#define __TIME__ "22:11:57"	/* Predefined */
+#define __DATE__ "Oct  3 2026"	/* Predefined */
+#define __TIME__ "14:29:38"	/* Predefined */
 #define __STDC__ 1	/* Predefined */
 #define __STDC_HOSTED__ 1	/* Predefined */
 #define __cplusplus 201402L	/* Predefined */
@@ -57,13 +57,6 @@
 #define __SIZE_T_TYPE__ unsigned	/* Predefined */
 #define __PTRDIFF_T_TYPE__ int	/* Predefined */
 #define __WCHAR_T_TYPE__ unsigned int	/* Predefined */
-#define __LARGE_CODE_MODEL__ 1	/* Predefined */
-#define __msp430x__ 1	/* Predefined */
-#define __MSP430X__ 1	/* Predefined */
-#define __msp430x461x 1	/* Predefined */
-#define __MSP430X461X 1	/* Predefined */
-#define __msp430x461x__ 1	/* Predefined */
-#define __MSP430X461X__ 1	/* Predefined */
 #define __TI_EABI__ 1	/* Predefined */
 #define __ELF__ 1	/* Predefined */
 #define __little_endian__ 1	/* Predefined */

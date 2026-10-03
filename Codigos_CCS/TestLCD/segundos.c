@@ -11,8 +11,8 @@
  * por el momento solo es posible elegir un solo modo, volver a inicializar con init para cambiar a otro rango
  */
 
-
 int tiempo=0;
+
 void espera_init(int modo)    // 0-> us 1->s default -> ms
 {
 
@@ -62,6 +62,7 @@ void espera_init(int modo)    // 0-> us 1->s default -> ms
     __bis_SR_register(GIE);
 }
 void espera(unsigned int segundos){
+    tiempo=0;
     while(tiempo<segundos){
         __bis_SR_register(LPM0_bits);
     }
@@ -73,6 +74,7 @@ __interrupt void Timer_A0_ISR(void){
     switch(__even_in_range(TA0IV,14)){
         case TA0IV_TAIFG:   // caso en que se produce el desbordamiento/limite
             tiempo++;
+            __bic_SR_register_on_exit(LPM0_bits);
             break;
         default:
             break;
