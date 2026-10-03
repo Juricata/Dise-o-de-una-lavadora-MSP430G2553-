@@ -11,7 +11,7 @@
  * por el momento solo es posible elegir un solo modo, volver a inicializar con init para cambiar a otro rango
  */
 
-int tiempo=0;
+volatile unsigned int tiempo=0;
 
 void espera_init(int modo)    // 0-> us 1->s default -> ms
 {
@@ -80,9 +80,5 @@ __interrupt void Timer_A0_ISR(void){
             break;
     }
 }
-
-
-
-
 
 
