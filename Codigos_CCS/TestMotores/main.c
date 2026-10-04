@@ -6,7 +6,10 @@ void main(void) {
     WDTCTL = WDTPW | WDTHOLD;
 
     motor_init();
-    motor_derecha(400, 10);
+    motor_derecha(512, 20);
+    motor_izquierda(512,20);
+    motor_derecha(512, 15);
+    motor_izquierda(512,15);
     while (1) {
     }
 }
