@@ -6,6 +6,7 @@ static const unsigned char seq[4] = {BIT4, BIT5, BIT6, BIT7};
 
 //start pines del motor
 void motor_init(void) {
+    //M_xxx definido en el archivo.h
     M_DIR |= M_MASK;   //P2.4 - P2.7 = salidas
     M_OUT &= ~M_MASK;  //apaga las fases del motor (inicio)
 }
