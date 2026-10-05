@@ -1474,3 +1474,6 @@ org.jsoup.HttpStatusException: HTTP error fetching URL. Status=421, URL=https://
 	at com.ti.ccstudio.project.core.internal.build.temp.ProcessClosure$SynchronizedOutputStream.flushBufferedErrors(ProcessClosure.java:256)
 	at com.ti.ccstudio.project.core.internal.build.temp.ProcessClosure$SynchronizedOutputStream.write(ProcessClosure.java:191)
 	at com.ti.ccstudio.project.core.internal.build.temp.ProcessClosure$ReaderThread.run(ProcessClosure.java:78)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-10-04 18:21:02.078
+!MESSAGE Indexed 'TestP1' (1 sources, 5 headers) in 0.535 sec: 684 declarations; 896 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
