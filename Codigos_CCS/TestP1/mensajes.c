@@ -57,13 +57,13 @@ void mensaje_encendido(void){
     lcd_comando(0xC0);
     lcd_letra(UNO);
     lcd_letra(GUION);
-    lcd_letra(L);
-    lcd_letra(VE);
+    lcd_letra(R);
+    lcd_letra(M);
     lcd_letra(0x20);
     lcd_letra(DOS);
     lcd_letra(GUION);
-    lcd_letra(R);
-    lcd_letra(M);
+    lcd_letra(L);
+    lcd_letra(VE);
     lcd_letra(0x20);
     lcd_letra(TRES);
     lcd_letra(GUION);

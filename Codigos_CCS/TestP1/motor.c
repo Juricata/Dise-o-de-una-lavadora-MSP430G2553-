@@ -33,23 +33,23 @@ void motor_izquierda(unsigned int pasos, unsigned int vel) {
     }
 }
 //ciclos de lavadora 
-void remojado(void) {
-    motor_derecha(512, 20); // 2 vueltas a la derecha
+void remojado(unsigned int vel) {
+    motor_derecha(512, vel); // 2 vueltas a la derecha
     espera_init(2);
     espera(300);            // Timer
-    motor_izquierda(512, 20); // 2 vueltas a la izquierda
+    motor_izquierda(512, vel); // 2 vueltas a la izquierda
 }
 
-void lavado(void) {
-    motor_derecha(768, 20); // 3 vueltas a la derecha
+void lavado(unsigned int vel) {
+    motor_derecha(768, vel); // 3 vueltas a la derecha
     espera_init(2);
     espera(300);
-    motor_izquierda(768, 20); // 3 vueltas a la izquierda
+    motor_izquierda(768, vel); // 3 vueltas a la izquierda
 }
 
-void exprimido(void) {
-    motor_derecha(256, 15);  // 1v rapida
+void exprimido(unsigned int vel) {
+    motor_derecha(256, (vel-5));  // 1v rapida
     espera_init(2);
     espera(200);
-    motor_izquierda(256, 15);  // 1v rapida
+    motor_izquierda(256, (vel-5));  // 1v rapida
 }

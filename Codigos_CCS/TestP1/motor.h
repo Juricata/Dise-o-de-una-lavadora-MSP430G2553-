@@ -20,8 +20,8 @@ void motor_derecha(unsigned int pasos, unsigned int vel);
 void motor_izquierda(unsigned int pasos, unsigned int vel);
 
 // Ciclos de la lavadora
-void remojado(void);
-void lavado(void);
-void exprimido(void);
+void remojado(unsigned int vel);
+void lavado(unsigned int vel);
+void exprimido(unsigned int vel);
 
 #endif

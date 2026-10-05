@@ -25,12 +25,12 @@ void enable(void){
 }
 // comandos en la lcd (rs = 0)
 void lcd_comando(int comando){
-    P2OUT = ((comando>>4) & (D4|D5|D6|D7)); // colocar los datos de los pines
+    P2OUT |= ((comando>>4) & (D4|D5|D6|D7)); // colocar los datos de los pines
     enable();
     espera_init(0);
     espera(1);
 
-    P2OUT = ((comando) & (D4|D5|D6|D7));
+    P2OUT |= ((comando) & (D4|D5|D6|D7));
     enable();
     espera_init(0);
     espera(2);
@@ -38,7 +38,7 @@ void lcd_comando(int comando){
 // lcd impresiones de pantalla
 void lcd_letra(int letra){
 
-    P2OUT = (letra>>4) & (D4|D5|D6|D7);    // colocar dato
+    P2OUT |= (letra>>4) & (D4|D5|D6|D7);    // colocar dato
     P1OUT |= RS;
     enable();
     espera_init(0);
