@@ -63,7 +63,7 @@ void espera_init(int modo)    // 0-> us 1->s default -> ms
 }
 void espera(unsigned int segundos){
     tiempo=0;
-    while(tiempo<segundos){
+    if(tiempo<segundos){
         __bis_SR_register(LPM0_bits);
     }
 }

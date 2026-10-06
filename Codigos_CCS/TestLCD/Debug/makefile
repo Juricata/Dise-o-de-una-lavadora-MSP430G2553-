@@ -11,7 +11,10 @@ GEN_CMDS__FLAG :=
 
 ORDERED_OBJS += \
 "./LCD.obj" \
+"./botones.obj" \
 "./main.obj" \
+"./mensajes.obj" \
+"./motor.obj" \
 "./segundos.obj" \
 "../lnk_msp430g2553.cmd" \
 $(GEN_CMDS__FLAG) \
@@ -156,8 +159,8 @@ TestLCD.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "LCD.obj" "main.obj" "segundos.obj" 
-	-$(RM) "LCD.d" "main.d" "segundos.d" 
+	-$(RM) "LCD.obj" "botones.obj" "main.obj" "mensajes.obj" "motor.obj" "segundos.obj" 
+	-$(RM) "LCD.d" "botones.d" "main.d" "mensajes.d" "motor.d" "segundos.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

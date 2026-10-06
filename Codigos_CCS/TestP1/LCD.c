@@ -25,32 +25,15 @@ void enable(void){
 }
 // comandos en la lcd (rs = 0)
 void lcd_comando(int comando){
-    P2OUT |= ((comando>>4) & (D4|D5|D6|D7)); // colocar los datos de los pines
+    P2OUT = ((comando>>4) & (D4|D5|D6|D7)); // colocar los datos de los pines
     enable();
     espera_init(0);
     espera(1);
 
-    P2OUT |= ((comando) & (D4|D5|D6|D7));
+    P2OUT = ((comando) & (D4|D5|D6|D7));
     enable();
     espera_init(0);
     espera(2);
-}
-// lcd impresiones de pantalla
-void lcd_letra(int letra){
-
-    P2OUT |= (letra>>4) & (D4|D5|D6|D7);    // colocar dato
-    P1OUT |= RS;
-    enable();
-    espera_init(0);
-    espera(1);
-
-    P2OUT = (letra) & (D4|D5|D6|D7);
-    P1OUT |= RS;
-    enable();
-    espera_init(0);
-    espera(2);
-    P1OUT &=~ RS;
-
 }
 // limpia pantalla y regresa cursor
 void lcd_limpiar(void){
@@ -82,7 +65,23 @@ void lcd_init (void){
     lcd_comando(0x06);
     lcd_comando(0x01);
 }
+// lcd impresiones de pantalla
+void lcd_letra(int letra){
 
+    P2OUT = (letra>>4) & (D4|D5|D6|D7);    // colocar dato
+    P1OUT |= RS;
+    enable();
+    espera_init(0);
+    espera(1);
+
+    P2OUT = (letra) & (D4|D5|D6|D7);
+    P1OUT |= RS;
+    enable();
+    espera_init(0);
+    espera(2);
+    P1OUT &=~ RS;
+
+}
 
 // agregar nuevo simbolo en la cgram
 void lcd_nuevosim(int posicioncgram, int *fila){

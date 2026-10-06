@@ -1,1 +1,1 @@
-"./LCD.obj" "./main.obj" "./segundos.obj" "../lnk_msp430g2553.cmd" -llibc.a 
+"./LCD.obj" "./botones.obj" "./main.obj" "./mensajes.obj" "./motor.obj" "./segundos.obj" "../lnk_msp430g2553.cmd" -llibc.a 

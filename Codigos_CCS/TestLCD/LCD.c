@@ -35,6 +35,11 @@ void lcd_comando(int comando){
     espera_init(0);
     espera(2);
 }
+// limpia pantalla y regresa cursor
+void lcd_limpiar(void){
+    lcd_comando(0x01);
+    lcd_comando(0x80);
+}
 // inicializacion de la lcd (prender pantalla, ajuste a modo de 4 bits)
 void lcd_init (void){
   // milisegundos

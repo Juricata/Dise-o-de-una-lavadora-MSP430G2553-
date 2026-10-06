@@ -43,6 +43,8 @@
 void mensaje_encendido(void){
     lcd_limpiar();
     lcd_letra(0x20);
+    lcd_letra(0x20);
+    lcd_letra(0x20);
     lcd_letra(B);
     lcd_letra(i);
     lcd_letra(e);
@@ -72,7 +74,7 @@ void mensaje_encendido(void){
     lcd_letra(X);
 
     espera_init(1);
-    espera(5);
+    espera(10);
 
 }
 
@@ -89,7 +91,7 @@ void mensaje_apagado(void){
     lcd_letra(a);
 
     espera_init(1);
-    espera(5);
+    espera(10);
 }
 
 void mensaje_alto(void){
@@ -238,7 +240,6 @@ void mensaje_final_ciclo(void){
     espera_init(1);
     espera(5);
 }
-
 
 
 

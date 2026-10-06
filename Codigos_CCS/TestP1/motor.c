@@ -1,9 +1,6 @@
 #include "motor.h"
 #include "segundos.h"
 
-//secuencia de 4 estados
-static const unsigned char seq[4] = {BIT4, BIT5, BIT6, BIT7};
-
 //start pines del motor
 void motor_init(void) {
     M_DIR |= M_MASK;   //P2.4 - P2.7 = salidas
@@ -12,24 +9,30 @@ void motor_init(void) {
 static unsigned char i = 0;
 //mvimiento derecha
 void motor_derecha(unsigned int pasos, unsigned int vel) {
-
-    unsigned int p;
-  espera_init(2);   //milisegundos
-  for (p = 0; p < pasos; p++) {
-        M_OUT = (M_OUT & ~M_MASK) | seq[i];
-        i = (i + 1) % 4;
-        espera(vel); //TIMER
+    int p;
+    for(p=0;p>pasos;p++){
+           P2OUT=BIT2|BIT3;
+           espera(vel);
+           P2OUT=BIT3|BIT4;
+           espera(vel);
+           P2OUT=BIT4|BIT5;
+           espera(vel);
+           P2OUT=BIT5|BIT2;
+           espera(vel);
     }
 }
 //izq
 void motor_izquierda(unsigned int pasos, unsigned int vel) {
-
-    unsigned int p;
-    espera_init(2);
-    for (p = 0; p < pasos; p++) {
-        M_OUT = (M_OUT & ~M_MASK) | seq[i];
-        i = (i == 0) ? 3 : i -1;
-        espera(vel); // TIMER
+    int p;
+    for(p=0;p>pasos;p++){
+              P2OUT=BIT5|BIT4;
+              espera(vel);
+              P2OUT=BIT4|BIT3;
+              espera(vel);
+              P2OUT=BIT3|BIT2;
+              espera(vel);
+              P2OUT=BIT2|BIT5;
+              espera(vel);
     }
 }
 //ciclos de lavadora 
@@ -48,8 +51,8 @@ void lavado(unsigned int vel) {
 }
 
 void exprimido(unsigned int vel) {
-    motor_derecha(256, (vel-5));  // 1v rapida
+    motor_derecha(256, (vel-3));  // 1v rapida
     espera_init(2);
     espera(200);
-    motor_izquierda(256, (vel-5));  // 1v rapida
+    motor_izquierda(256, (vel-3));  // 1v rapida
 }

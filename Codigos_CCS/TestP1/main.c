@@ -1,13 +1,19 @@
-#include <msp430.h> 
+#include <msp430.h>
 #include "segundos.h"
 #include "motor.h"
 #include "botones.h"
 #include "LCD.h"
 #include "mensajes.h"
+
+#define J 0x4A
+#define u 0x75
+#define l 0x6C
+#define i 0x69
+#define a 0x61
+
 /**
  * main.c
  */
-
 //char solo usa 1 byte, ahorro de memoria para usar banderas con 1 bit
 volatile char sistema_encendido = 0; // 1 -> Encendido; 0 -> Apagado
 volatile char velocidad_iniciada = 0; // 1-> Alto; 0 -> Bajo
@@ -23,12 +29,12 @@ int main(void)
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 
     //se inician los perifericos
-    //motor_init();   // De la libreria motor -> Funcion para configuracion de salidas del motor
-    //botones_init(); // De la libreria botones -> Funcion de configuracion de botones GPIO de entrada en modo Pull down
+    motor_init();   // De la libreria motor -> Funcion para configuracion de salidas del motor
+    botones_init(); // De la libreria botones -> Funcion de configuracion de botones GPIO de entrada en modo Pull down
     lcd_init(); // De la libreria LCD-> Funcion para configuracion y prendido inicial de LCD
     mensaje_encendido();
 
-   // __enable_interrupt(); //se comienzan las interrupciones
+   __enable_interrupt(); //se comienzan las interrupciones
 
     while (1) {
         // se espera hasta que se precione un boton en el circuito
@@ -80,9 +86,9 @@ __interrupt void Port_1(void) {
             P1IFG &= ~BIT1;
 
             if(velocidad_iniciada){
-                velocidad=25;
+                velocidad=11;//EX-> 8s
             }else{
-                velocidad=15;
+                velocidad=15;//EX-> 12s
             }
         }
         if (P1IFG & BIT2) {
