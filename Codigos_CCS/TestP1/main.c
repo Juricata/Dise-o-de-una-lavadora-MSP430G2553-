@@ -5,107 +5,114 @@
 #include "LCD.h"
 #include "mensajes.h"
 
-#define J 0x4A
-#define u 0x75
-#define l 0x6C
-#define i 0x69
-#define a 0x61
-
-/**
- * main.c
- */
-//char solo usa 1 byte, ahorro de memoria para usar banderas con 1 bit
 volatile char sistema_encendido = 0; // 1 -> Encendido; 0 -> Apagado
 volatile char velocidad_iniciada = 0; // 1-> Alto; 0 -> Bajo
-// Banderas para cada ciclo
-volatile char hacer_remojado = 0; // 1 -> Encendido; 0 -> Apagado
-volatile char hacer_lavado = 0; // 1 -> Encendido; 0 -> Apagado
-volatile char hacer_exprimido = 0; // 1 -> Encendido; 0 -> Apagado
 
-unsigned int velocidad = 15; // Inicio en modo bajo
+// Banderas para cada ciclo
+volatile char hacer_remojado = 0;
+volatile char hacer_lavado = 0;
+volatile char hacer_exprimido = 0;
+
+unsigned int velocidad = 8; // Inicio en modo bajo
+// bandera de pulso de botones
+volatile char pulso2=0;
+volatile char pulso3=0;
+
 
 int main(void)
 {
-	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
+    WDTCTL = WDTPW | WDTHOLD;   // Stop watchdog timer
 
-    //se inician los perifericos
-    motor_init();   // De la libreria motor -> Funcion para configuracion de salidas del motor
-    botones_init(); // De la libreria botones -> Funcion de configuracion de botones GPIO de entrada en modo Pull down
-    lcd_init(); // De la libreria LCD-> Funcion para configuracion y prendido inicial de LCD
-    mensaje_encendido();
+    motor_init();
+    botones_init();
+    lcd_init();
 
-   __enable_interrupt(); //se comienzan las interrupciones
+    __bis_SR_register(GIE);
 
     while (1) {
-        // se espera hasta que se precione un boton en el circuito
-        if(sistema_encendido){
+        if (sistema_encendido &  pulso2) {
+            pulso2=0;
             mensaje_encendido();
-        }else{
+        } else if(!sistema_encendido & pulso2) {
+            pulso2=0;
             mensaje_apagado();
-        }
-        if(velocidad_iniciada){
-            mensaje_alto();
-        }else{
-            mensaje_bajo();
-        }
-        if (hacer_remojado){    // Prueba en el ciclo remojado
             hacer_remojado = 0;
-            mensaje_remojado();
-            remojado(velocidad);
-            mensaje_final_ciclo();
-        }
-        if (hacer_lavado){  // Prueba en el ciclo lavado
             hacer_lavado = 0;
-            mensaje_lavado();
-            lavado(velocidad);
-            mensaje_final_ciclo();
-        }
-        if (hacer_exprimido){   // Prueba en el ciclo exprimido
             hacer_exprimido = 0;
-            mensaje_exprimido();
-            exprimido(velocidad);
-            mensaje_final_ciclo();
+        }
+        if (sistema_encendido) {
+            if (velocidad_iniciada & pulso3) {
+                mensaje_alto();
+                pulso3=0;
+                velocidad = 8; // Velocidad alta
+            } else if(!velocidad_iniciada & pulso3) {
+                pulso3=0;
+                mensaje_bajo();
+                velocidad = 10; // Velocidad baja
+            }
+            if (hacer_remojado) {
+                mensaje_remojado();
+                hacer_remojado = 0;
+                remojado(velocidad);
+                mensaje_final_ciclo();
+            }
+
+            if (hacer_lavado) {
+                hacer_lavado = 0;
+                mensaje_lavado();
+                lavado(velocidad);
+                mensaje_final_ciclo();
+            }
+
+            if (hacer_exprimido) {
+                hacer_exprimido = 0;
+                mensaje_exprimido();
+                exprimido(velocidad);
+                mensaje_final_ciclo();
+            }
         }
 
         __bis_SR_register(LPM0_bits);
     }
 }
 
-// interrupciones de los botones
-
-#pragma vector=PORT1_VECTOR
-__interrupt void Port_1(void) {
-    if (P1IFG & BIT0) {
+// Interrupciones de los botones (Puerto 1)
+#pragma vector=PORT2_VECTOR
+__interrupt void PORT2_ISR(void) {
+    // Antirrebote básico por software y verificación de bandera
+    if (P2IFG & BIT2) { // Botón ON/OFF (P1.0)
         sistema_encendido = !sistema_encendido;
-        P1IFG &= ~BIT0;
+        pulso2=1;
+        P2IFG &= ~BIT2;
     }
+    else{
+        pulso2=0;
+    }
+
     if (sistema_encendido) {
-
-        if (P1IFG & BIT1) {
+        if (P2IFG & BIT3) { // Botón de Velocidad (P1.1)
             velocidad_iniciada = !velocidad_iniciada;
-            P1IFG &= ~BIT1;
-
-            if(velocidad_iniciada){
-                velocidad=11;//EX-> 8s
-            }else{
-                velocidad=15;//EX-> 12s
-            }
+            pulso3=1;
+            P2IFG &= ~BIT3;
         }
-        if (P1IFG & BIT2) {
+        if (P2IFG & BIT4) { // Botón Remojado (P1.2)
             hacer_remojado = 1;
-            P1IFG &= ~BIT2;
+            P2IFG &= ~BIT4;
         }
-        if (P1IFG & BIT3) {
+        if (P2IFG & BIT5) { // Botón Lavado (P1.3)
             hacer_lavado = 1;
-            P1IFG &= ~BIT3;
+            P2IFG &= ~BIT5;
         }
-        if (P1IFG & BIT4) {
+        if (P2IFG & BIT7) { // Botón Exprimido (P1.4)
             hacer_exprimido = 1;
-            P1IFG &= ~BIT4;
+            P2IFG &= ~BIT7;
         }
     } else {
-        P1IFG &= ~(BIT1 | BIT2 | BIT3 | BIT4);
+        P2IFG &= ~(BIT3 | BIT4 | BIT5 | BIT7);
+        pulso3=0;
+
     }
+
     __bic_SR_register_on_exit(LPM0_bits);
 }
 

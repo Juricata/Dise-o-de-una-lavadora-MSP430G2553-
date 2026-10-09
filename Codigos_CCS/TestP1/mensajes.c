@@ -73,6 +73,7 @@ void mensaje_encendido(void){
 
     espera_init(1);
     espera(5);
+    lcd_limpiar();
 
 }
 
@@ -90,6 +91,7 @@ void mensaje_apagado(void){
 
     espera_init(1);
     espera(5);
+    lcd_limpiar();
 }
 
 void mensaje_alto(void){
@@ -108,6 +110,7 @@ void mensaje_alto(void){
 
     espera_init(1);
     espera(5);
+    lcd_limpiar();
 }
 
 void mensaje_bajo(void){
@@ -126,6 +129,7 @@ void mensaje_bajo(void){
 
     espera_init(1);
     espera(5);
+    lcd_limpiar();
 }
 
 void mensaje_remojado(void){
@@ -155,6 +159,7 @@ void mensaje_remojado(void){
 
     espera_init(1);
     espera(5);
+    lcd_limpiar();
 }
 
 void mensaje_lavado(void){
@@ -182,6 +187,7 @@ void mensaje_lavado(void){
 
     espera_init(1);
     espera(5);
+    lcd_limpiar();
 }
 
 void mensaje_exprimido(void){
@@ -213,6 +219,7 @@ void mensaje_exprimido(void){
 
     espera_init(1);
     espera(5);
+    lcd_limpiar();
 }
 
 void mensaje_final_ciclo(void){
@@ -237,6 +244,7 @@ void mensaje_final_ciclo(void){
 
     espera_init(1);
     espera(5);
+    lcd_limpiar();
 }
 
 

@@ -6,53 +6,54 @@ void motor_init(void) {
     M_DIR |= M_MASK;   //P2.4 - P2.7 = salidas
     M_OUT &= ~M_MASK;  //apaga las fases del motor (inicio)
 }
-static unsigned char i = 0;
 //mvimiento derecha
 void motor_derecha(unsigned int pasos, unsigned int vel) {
     int p;
-    for(p=0;p>pasos;p++){
-           P2OUT=BIT2|BIT3;
+    espera_init(2);
+    for(p=0;p<pasos;p++){
+           P1OUT=BIT0|BIT1;
            espera(vel);
-           P2OUT=BIT3|BIT4;
+           P1OUT=BIT1|BIT2;
            espera(vel);
-           P2OUT=BIT4|BIT5;
+           P1OUT=BIT2|BIT3;
            espera(vel);
-           P2OUT=BIT5|BIT2;
+           P1OUT=BIT3|BIT0;
            espera(vel);
     }
 }
 //izq
 void motor_izquierda(unsigned int pasos, unsigned int vel) {
     int p;
-    for(p=0;p>pasos;p++){
-              P2OUT=BIT5|BIT4;
+    espera_init(2);
+    for(p=0;p<pasos;p++){
+              P1OUT=BIT0|BIT3;
               espera(vel);
-              P2OUT=BIT4|BIT3;
+              P1OUT=BIT3|BIT2;
               espera(vel);
-              P2OUT=BIT3|BIT2;
+              P1OUT=BIT2|BIT1;
               espera(vel);
-              P2OUT=BIT2|BIT5;
+              P1OUT=BIT1|BIT0;
               espera(vel);
     }
 }
 //ciclos de lavadora 
 void remojado(unsigned int vel) {
-    motor_derecha(512, vel); // 2 vueltas a la derecha
+    motor_derecha(1024, vel); // 2 vueltas a la derecha
     espera_init(2);
     espera(300);            // Timer
-    motor_izquierda(512, vel); // 2 vueltas a la izquierda
+    motor_izquierda(1024, vel); // 2 vueltas a la izquierda
 }
 
 void lavado(unsigned int vel) {
-    motor_derecha(768, vel); // 3 vueltas a la derecha
+    motor_derecha(1536, vel); // 3 vueltas a la derecha
     espera_init(2);
     espera(300);
-    motor_izquierda(768, vel); // 3 vueltas a la izquierda
+    motor_izquierda(1536, vel); // 3 vueltas a la izquierda
 }
 
 void exprimido(unsigned int vel) {
-    motor_derecha(256, (vel-3));  // 1v rapida
+    motor_derecha(512, (vel-3));  // 1v rapida
     espera_init(2);
     espera(200);
-    motor_izquierda(256, (vel-3));  // 1v rapida
+    motor_izquierda(512, (vel-3));  // 1v rapida
 }
